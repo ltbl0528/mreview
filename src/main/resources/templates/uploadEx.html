@@ -8,6 +8,10 @@
     <input type="file" name="uploadFiles" multiple>
     <button class="uploadBtn">Upload</button>
 
+    <div class="uploadResult">
+        <!--업로드된 이미지 보여줄 부분-->
+    </div>
+
     <script
             src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
@@ -38,12 +42,49 @@
                 success: function(result) {
                     console.log(result);
                     //나중에 화면 처리
+                    showUploadedImages(result);
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus);
                 }
             }); // end ajax
+
+            function showUploadedImages(arr) {
+                console.log(arr);
+
+                var divArea = $(".uploadResult");
+
+                // 버튼과 이미지를 하나의 div로 묶고 삭제할 때 같이 삭제 처리
+                var str = "";
+
+                for(var i = 0; i < arr.length; i++) {
+                    str += "<div>";
+                    str += "<img src='/display?fileName="+arr[i].thumbnailURL+"'>";
+                    str += "<button class='removeBtn' data-name='"+arr[i].imageURL+"'>REMOVE</button>";
+                    str += "</div>";
+                }
+                divArea.append(str);
+            }
+
+            // remove 버튼을 클릭했을 때 이벤트 처리
+            $(".uploadResult").on("click", ".removeBtn", function(e) {
+
+                var target = $(this);
+                var fileName = target.data("name");
+                var targetDiv = $(this).closest("div");
+
+                console.log(fileName);
+
+                $.post('/removeFile', {fileName: fileName}, function(result) {
+
+                    console.log(result);
+                    if(result) {
+                        targetDiv.remove();
+                    }
+                }) //post
+            }); // uploadResult click
         });
+
     </script>
 </body>
 </html>
