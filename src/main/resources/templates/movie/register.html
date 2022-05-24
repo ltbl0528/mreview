@@ -6,7 +6,7 @@
 
         <h1 class="mt-4">Movie Register Page</h1>
 
-        <form action="@{/movie/register}" method="post">
+        <form th:action="@{/movie/register}" method="post">
             <div class="form-group">
                 <label>Title</label>
                 <input type="text" class="form-control" name="title" placeholder="Enter Title">
@@ -64,7 +64,7 @@
         <script>
             $(document).ready(function(e) {
 
-                var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff||webp)$");
+                var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|webp)$");
                 var maxSize = 10485760; // 파일 최대 크기 10MB
 
                 // 파일 확장자 체크
@@ -174,7 +174,6 @@
                     }); // end ajax
                 });
 
-                //prevent submit
                 $(".btn-primary").on("click", function(e) {
                     e.preventDefault();
 
@@ -183,18 +182,15 @@
                     $(".uploadResult li").each(function(i, obj) {
                         var target = $(obj);
 
-                        str += "<input type='hidden' name='imageDTOList[" + i + "].imgName'
-                                value='" + target.data('name') + "'>";
-                        str += "<input type='hidden' name='imageDTOList[" + i + "].path'
-                                value='" + target.data('path') + "'>";
-                        str += "<input type='hidden' name='imageDTOList[" + i + "].uuid'
-                                value='" + target.data('uuid') + "'>";
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].imgName' value='" + target.data('name') + "'>";
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].path' value='" + target.data('path') + "'>";
+                        str += "<input type='hidden' name='imageDTOList[" + i + "].uuid' value='" + target.data('uuid') + "'>";
                     });
 
                     // 태그들이 추가된 것을 확인한 후 comment 제거
                     $(".box").html(str);
 
-                    //$("form").submit();
+                    $("form").submit();
                 });
             }); // document ready
         </script>
