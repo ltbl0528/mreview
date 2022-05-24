@@ -19,6 +19,9 @@ public interface MovieService {
     // 목록 처리
     PageResultDTO<MovieDTO, Object[]> getList(PageRequestDTO requestDTO);
 
+    // 특정한 영화의 번호 이용해서 MovieDTO 반환
+    MovieDTO getMovie(Long mno);
+
     // JPA를 통해 나오는 엔티티 객체들과 Double, Long 등의 값을
     // MovieDTO로 변환하는 entitiesToDTO 추가
     default MovieDTO entitiesToDTO(Movie movie, List<MovieImage> movieImages,
